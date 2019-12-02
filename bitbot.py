@@ -40,8 +40,8 @@ def slack_client_connect():
 
 def slack_client_test():
      slack_client = slack_client_connect()
-     print(slack_client.api_call('api.test'))
-     print(slack_client.api_call('auth.test'))
+     #print(slack_client.api_call('api.test'))
+     #print(slack_client.api_call('auth.test'))
 
 
 
@@ -60,10 +60,10 @@ def slack_event_parser(output):
     output_list = output
     if output_list and len(output_list) > 0:
         for output in output_list:
-            #print(output['text'], output['channel'])
+            #print "output", output
             return output
 
-#slack_client_test()
+slack_client_test()
 
 if __name__ == "__main__":
     slack_client = slack_client_connect()
@@ -73,7 +73,8 @@ if __name__ == "__main__":
         while True:
             output = slack_event_parser(slack_client.rtm_read())
             if output:
-                if output['type'] == 'team_join':
+                print "Output Type", output['type']
+                if output['type'] == 'member_joined_channel':
                     slack_post_message(message=greeting_message)
             time.sleep(socket_delay)
     else:
